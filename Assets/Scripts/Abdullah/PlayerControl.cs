@@ -13,10 +13,10 @@ public class PlayerControl : Subject
     public bool P01isAttacking = true;
     public bool defenseFinished = false;
 
+    public int KillCount = 0;
 
-    float yPosition;
-    float noteCurrentLine;
-    [SerializeField] Transform noteSpawnPosition;
+
+    
 
     public int ammo = 10;
 
@@ -27,10 +27,6 @@ public class PlayerControl : Subject
     }
     void Update()
     {
-        yPosition = Input.GetAxisRaw("Vertical");
-        noteSpawnPosition.position = new Vector3(noteSpawnPosition.position.x, noteCurrentLine, noteSpawnPosition.position.z);
-
-        Movement();
         if (ammo > 0)
         {
         Attack();
@@ -75,20 +71,5 @@ public class PlayerControl : Subject
         }
     }
 
-    private void Movement()
-    {
-        if (yPosition > 0.01)
-        {
-            noteCurrentLine = 3.5f;
-        }
-        else if (yPosition < -0.01)
-        {
-
-            noteCurrentLine = 2.5f;
-        }
-        else
-        {
-            noteCurrentLine = 3f;
-        }
-    }
+    
 }
