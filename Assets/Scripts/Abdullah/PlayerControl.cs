@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PlayerControl : Subject
 {
@@ -14,6 +15,11 @@ public class PlayerControl : Subject
     public bool defenseFinished = false;
 
     public int KillCount = 0;
+
+    public AudioSource attackSound;
+    public GameObject pauseMenu;
+    public bool gamePaused = false;
+
   
 
 
@@ -23,8 +29,8 @@ public class PlayerControl : Subject
 
     private void Start()
     {
-       
-        
+        pauseMenu.SetActive(false);
+        attackSound = GetComponent<AudioSource>();   
         animator = P01.GetComponent<Animator>();
         animator2 = P02.GetComponent<Animator>();
     }
@@ -46,6 +52,19 @@ public class PlayerControl : Subject
             defenseFinished = false;
             ammo = 10;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && gamePaused == false)
+        {
+            gamePaused = true;
+            Debug.Log("Game Paused");
+            PauseGame();
+        }
+        else if (gamePaused == true && Input.GetKeyDown(KeyCode.Escape))
+        {
+            gamePaused = false;
+            Debug.Log("Game Resumed");
+            ResumeGame();
+        }
     }
 
     public void SwitchTurn()
@@ -60,21 +79,32 @@ public class PlayerControl : Subject
     {
         if (Input.GetButtonDown("Jump") && P01isAttacking == true)
         {
-            
             ammo -= 1;
             animator.SetTrigger("IsAttacking");
             NotifyObservers(StartEvent.SpawnNote);
             Debug.Log("P01 is attacking");
+            attackSound.Play();
         }
         else if (Input.GetButtonDown("Jump") && P01isAttacking == false)
         {  
-            
             ammo -= 1;
             animator2.SetTrigger("IsAttacking");
             NotifyObservers(StartEvent.SpawnNote);
             Debug.Log("P02 is attacking");
+            attackSound.Play();
         }
     }
+    public void PauseGame()
+    {
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void ResumeGame()
+    {
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1;
+    }
+
 
     
 }
