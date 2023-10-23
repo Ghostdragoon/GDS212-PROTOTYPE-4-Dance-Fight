@@ -13,6 +13,7 @@ public class Winner : MonoBehaviour
     public PlayerControl playerControl;
     public GameObject player;
 
+   
 
     public int MissCountP01 = 0;
     public int MissCountP02 = 0;
@@ -21,6 +22,7 @@ public class Winner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
         animator = P01.GetComponent<Animator>();
         animator2 = P02.GetComponent<Animator>();
         playerControl = player.GetComponent<PlayerControl>();
@@ -35,6 +37,7 @@ public class Winner : MonoBehaviour
     {
         if (other.gameObject.tag == "Note" && playerControl.P01isAttacking == true)
         {
+            
             animator2.SetTrigger("IsHit");
             Destroy(other.gameObject);
             playerControl.KillCount += 1;
@@ -43,6 +46,7 @@ public class Winner : MonoBehaviour
         }
         else if (other.gameObject.tag == "Note" && playerControl.P01isAttacking == false)
         {
+            
             animator.SetTrigger("IsHit");
             Destroy(other.gameObject);
             playerControl.KillCount += 1;
@@ -61,12 +65,14 @@ public class Winner : MonoBehaviour
     {
      if (MissCountP02 >= 3)
         {
+            
             animator.SetBool("HasWon",true);
             animator2.SetBool("HasLost",true);
             Debug.Log("P01 is the winner");
         }
         else if (MissCountP01 >= 3)
         {
+            
             animator.SetBool("HasLost",true);
             animator2.SetBool("HasWon",true);
             Debug.Log("P02 is the winner");

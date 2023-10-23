@@ -12,11 +12,13 @@ public class NoteCounter : MonoBehaviour
 
     public PlayerControl playerControl;
     public GameObject player;
+    
 
 
     // Start is called before the first frame update
     void Start()
     {
+        
         animator = P01.GetComponent<Animator>();
         animator2 = P02.GetComponent<Animator>();
         playerControl = player.GetComponent<PlayerControl>();
@@ -28,6 +30,7 @@ public class NoteCounter : MonoBehaviour
         
         if (other.gameObject.tag == "Note" && playerControl.P01isAttacking == true)
         {
+            
             animator2.SetTrigger("IsBlocking");
             Destroy(other.gameObject);
             playerControl.KillCount += 1;
@@ -35,6 +38,7 @@ public class NoteCounter : MonoBehaviour
         }
         else if (other.gameObject.tag == "Note" && playerControl.P01isAttacking == false)
         {
+            
             animator.SetTrigger("IsBlocking");
             Destroy(other.gameObject);
             playerControl.KillCount += 1;

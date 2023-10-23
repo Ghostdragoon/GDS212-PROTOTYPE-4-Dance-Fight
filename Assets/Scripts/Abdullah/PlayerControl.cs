@@ -14,6 +14,7 @@ public class PlayerControl : Subject
     public bool defenseFinished = false;
 
     public int KillCount = 0;
+  
 
 
     
@@ -22,6 +23,8 @@ public class PlayerControl : Subject
 
     private void Start()
     {
+       
+        
         animator = P01.GetComponent<Animator>();
         animator2 = P02.GetComponent<Animator>();
     }
@@ -57,6 +60,7 @@ public class PlayerControl : Subject
     {
         if (Input.GetButtonDown("Jump") && P01isAttacking == true)
         {
+            
             ammo -= 1;
             animator.SetTrigger("IsAttacking");
             NotifyObservers(StartEvent.SpawnNote);
@@ -64,6 +68,7 @@ public class PlayerControl : Subject
         }
         else if (Input.GetButtonDown("Jump") && P01isAttacking == false)
         {  
+            
             ammo -= 1;
             animator2.SetTrigger("IsAttacking");
             NotifyObservers(StartEvent.SpawnNote);
