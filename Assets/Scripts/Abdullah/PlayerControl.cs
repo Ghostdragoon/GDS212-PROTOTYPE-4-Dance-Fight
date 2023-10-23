@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class PlayerControl : Subject
 {
+    public GameObject P01;
+    public Animator animator;
+
+    public GameObject P02;
+    public Animator animator2;
+
+    public bool P01isAttacking = true;
+
 
     float yPosition;
     float noteCurrentLine;
     [SerializeField] Transform noteSpawnPosition;
 
+    int ammo = 10;
+
     private void Start()
     {
+        animator = P01.GetComponent<Animator>();
+        animator2 = P02.GetComponent<Animator>();
     }
     void Update()
     {
@@ -18,29 +30,44 @@ public class PlayerControl : Subject
         noteSpawnPosition.position = new Vector3(noteSpawnPosition.position.x, noteCurrentLine, noteSpawnPosition.position.z);
 
         Movement();
+        if (ammo > 0)
+        {
         Attack();
-        SwitchTurn();
-
+        }
+        if (ammo <= 0 && P01isAttacking == true)
+        {
+            P01isAttacking = false;
+        }
+        else if (ammo <= 0 && P01isAttacking == false)
+        {
+            P01isAttacking = true;
+        }
     }
 
-    private void SwitchTurn()
+    public void SwitchTurn()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            NotifyObservers(StartEvent.SwitchPlayers);
-            transform.localScale = new Vector3(transform.localScale.x * -1,
+    NotifyObservers(StartEvent.SwitchPlayers);
+    transform.localScale = new Vector3(transform.localScale.x * -1,
                                              transform.localScale.y,
                                              transform.localScale.z);
-        }
+    ammo = 10;
     }
 
     private void Attack()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && P01isAttacking == true)
         {
-
+            ammo -= 1;
+            animator.SetTrigger("IsAttacking");
             NotifyObservers(StartEvent.SpawnNote);
-
+            Debug.Log("P01 is attacking");
+        }
+        else if (Input.GetButtonDown("Jump") && P01isAttacking == false)
+        {  
+            ammo -= 1;
+            animator2.SetTrigger("IsAttacking");
+            NotifyObservers(StartEvent.SpawnNote);
+            Debug.Log("P02 is attacking");
         }
     }
 
@@ -57,9 +84,7 @@ public class PlayerControl : Subject
         }
         else
         {
-
             noteCurrentLine = 3f;
-
         }
     }
 }
