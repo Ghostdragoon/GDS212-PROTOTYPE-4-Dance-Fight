@@ -11,13 +11,14 @@ public class PlayerControl : Subject
     public Animator animator2;
 
     public bool P01isAttacking = true;
+    public bool defenseFinished = false;
 
 
     float yPosition;
     float noteCurrentLine;
     [SerializeField] Transform noteSpawnPosition;
 
-    int ammo = 10;
+    public int ammo = 10;
 
     private void Start()
     {
@@ -34,13 +35,17 @@ public class PlayerControl : Subject
         {
         Attack();
         }
-        if (ammo <= 0 && P01isAttacking == true)
+        if (ammo <= 0 && P01isAttacking == true && defenseFinished == true)
         {
             P01isAttacking = false;
+            defenseFinished = false;
+            ammo = 10;
         }
-        else if (ammo <= 0 && P01isAttacking == false)
+        else if (ammo <= 0 && P01isAttacking == false && defenseFinished == true)
         {
             P01isAttacking = true;
+            defenseFinished = false;
+            ammo = 10;
         }
     }
 
@@ -50,7 +55,6 @@ public class PlayerControl : Subject
     transform.localScale = new Vector3(transform.localScale.x * -1,
                                              transform.localScale.y,
                                              transform.localScale.z);
-    ammo = 10;
     }
 
     private void Attack()

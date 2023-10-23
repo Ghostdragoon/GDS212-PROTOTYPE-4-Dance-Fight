@@ -13,7 +13,6 @@ public class NoteCounter : MonoBehaviour
     public PlayerControl playerControl;
     public GameObject player;
 
-    public bool P01isAttacking = true;
     public int KillCount = 0;
 
 
@@ -45,6 +44,8 @@ public class NoteCounter : MonoBehaviour
         }
         if (KillCount >= 10)
         {
+            playerControl.defenseFinished = true;
+            Debug.Log("player Switched");
             playerControl.SwitchTurn();
             KillCount = 0;
         }
