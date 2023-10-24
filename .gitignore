@@ -10,3 +10,5 @@
 *.pidb.meta
 *.pdb.meta
 *.mdb.meta
+Logs
+.vs

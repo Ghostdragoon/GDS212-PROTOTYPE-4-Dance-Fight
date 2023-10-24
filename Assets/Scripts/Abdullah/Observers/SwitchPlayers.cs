@@ -1,29 +1,74 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
-public class SwitchPlayers : MonoBehaviour, IObserver
+public class SwitchPlayers : Subject, IObserver
 {
     [SerializeField] Subject subject;
+    [SerializeField] GameObject[] playerState= new GameObject[2];
+    [SerializeField] GameObject[] notesSpawner;
     static public bool switchTurn;
+    int increaseDiffuclty= 0;
 
     // Start is called before the first frame update
     public void OnNotify(StartEvent action)
     {
         if (action == StartEvent.SwitchPlayers)
         {
-            Debug.Log("SwitchPlayer");
-            if (switchTurn == false)
+            switch (switchTurn)
             {
+                case false:
+                    {
+                        for (int i = 0; playerState.Length > i; i++)
+                        {
+                            if (playerState[i].activeSelf == false)
+                            {
+                                playerState[i].SetActive(true);
+                            }
+                            else playerState[i].SetActive(false);
+                        }
+                        switchTurn = true;
+                        break;
+                    }
 
-                switchTurn = true;
+                case true:
+                    switchTurn = false;
+                    for (int i = 0; playerState.Length > i; i++)
+                    {
+                        if (playerState[i].activeSelf == false)
+                        {
+                            playerState[i].SetActive(true);
+                        }
+                        else playerState[i].SetActive(false);
+                    }
+                    break;
             }
-            else if (switchTurn == true)
-            {
-                switchTurn = false;
+
+            increaseDiffuclty++;
+            Debug.Log("SwitchPlayer " + "  increaseDiffuclty:" + increaseDiffuclty);
+
+            for (int i=0; notesSpawner.Length > i; i++)
+            { 
+                    var spawner = notesSpawner[i].GetComponent<NoteSpawner>();
+                if (spawner.enabled == true)
+                {
+                    spawner.enabled = false;
+                }
+                else spawner.enabled = true;
+
             }
+
+
+
 
         }
+        if (increaseDiffuclty > 1)
+        {
+            increaseDiffuclty = 0;
+            Note.noteSpeed += 50;
+        }
+
     }
     private void OnEnable()
     {

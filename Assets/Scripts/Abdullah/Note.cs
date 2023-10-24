@@ -6,7 +6,7 @@ using UnityEngine;
 public class Note : Subject
 {
     Rigidbody rg;
-    public float noteSpeed= 50;
+    public static float noteSpeed= 50;
 
 
 
