@@ -4,10 +4,13 @@ using UnityEngine;
 
 public enum StartEvent
 {
-    SpawnNote,
-    Note,
+    SpawnNoteA,
+    SpawnNoteB,
+    SpawnNoteX,
+    SpawnNoteY,
     Effect,
     SwitchPlayers,
-
+    LeftTeamWin,
+    RightTeamWin,
 
 }

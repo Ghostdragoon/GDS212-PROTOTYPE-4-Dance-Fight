@@ -5,15 +5,48 @@ using UnityEngine;
 public class NoteSpawner : MonoBehaviour, IObserver
 {
     [SerializeField] Subject subject;
-    [SerializeField] GameObject buttonsSequance;
+    [SerializeField] GameObject[] buttonsNotes= new GameObject[4];
+    
     public void OnNotify(StartEvent action)
     {
-        if (action== StartEvent.SpawnNote) 
-        { 
-        Debug.Log("NoteSpawner");
-        Instantiate(buttonsSequance,transform.position,Quaternion.identity);
+        switch (action)
+        {
+            case StartEvent.SpawnNoteA:
+
+                SpawnNote(0, "A");
+
+                break;
+            case StartEvent.SpawnNoteB:
+
+                SpawnNote(1, "B");
+
+                break;
+            case StartEvent.SpawnNoteX:
+
+                SpawnNote(2, "X");
+
+                break;
+            case StartEvent.SpawnNoteY:
+
+                SpawnNote(3, "Y");
+
+                break;
+
         }
+
     }
+
+    private void SpawnNote(int index,string button)
+    {
+        Debug.Log("NoteSpawner"+ button);
+        Instantiate(buttonsNotes[index], transform.position, Quaternion.identity);
+
+
+
+    }
+
+
+
     private void OnEnable()
     {
         subject.AddObserver(this);

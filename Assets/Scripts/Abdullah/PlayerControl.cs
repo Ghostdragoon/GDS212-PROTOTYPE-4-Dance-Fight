@@ -9,7 +9,8 @@ public class PlayerControl : Subject
     float noteCurrentLine;
     [SerializeField] Transform noteSpawnPosition;
 
-    private void Start()
+
+     void Start()
     {
     }
     void Update()
@@ -28,23 +29,41 @@ public class PlayerControl : Subject
         if (Input.GetKeyDown(KeyCode.E))
         {
             NotifyObservers(StartEvent.SwitchPlayers);
-            transform.localScale = new Vector3(transform.localScale.x * -1,
-                                             transform.localScale.y,
-                                             transform.localScale.z);
         }
     }
 
     private void Attack()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKeyDown(KeyCode.DownArrow))
         {
 
-            NotifyObservers(StartEvent.SpawnNote);
+            NotifyObservers(StartEvent.SpawnNoteA);
 
         }
+        else if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+
+            NotifyObservers(StartEvent.SpawnNoteB);
+
+        }
+        else if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+
+            NotifyObservers(StartEvent.SpawnNoteX);
+
+        }
+        else if (Input.GetKeyDown(KeyCode.JoystickButton3) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+
+            NotifyObservers(StartEvent.SpawnNoteY);
+
+        }
+
+
+
     }
 
-    private void Movement()
+    public void Movement()
     {
         if (yPosition > 0.01)
         {
